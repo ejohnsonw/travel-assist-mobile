@@ -1,0 +1,157 @@
+[
+  {
+    "code": "KBL",
+    "country": "AF",
+    "name": "Kabul, Afghanistan"
+  },
+  {
+    "code": "KDH",
+    "country": "AF",
+    "name": "Kandahar, Afghanistan"
+  },
+  {
+    "code": "TIA",
+    "country": "AL",
+    "name": "Tirana, Albania"
+  },
+  {
+    "code": "AZR",
+    "country": "DZ",
+    "name": "Adrar, Algeria"
+  },
+  {
+    "code": "ALG",
+    "country": "DZ",
+    "name": "Algiers, Algeria"
+  },
+  {
+    "code": "AAE",
+    "country": "DZ",
+    "name": "Annaba, Algeria"
+  },
+  {
+    "code": "CBH",
+    "country": "DZ",
+    "name": "Bechar, Algeria"
+  },
+  {
+    "code": "BJA",
+    "country": "DZ",
+    "name": "Bejaia, Algeria"
+  },
+  {
+    "code": "BSK",
+    "country": "DZ",
+    "name": "Biskra, Algeria"
+  },
+  {
+    "code": "BMW",
+    "country": "DZ",
+    "name": "Bordi Badji Mokhtar, Algeria"
+  },
+  {
+    "code": "CZL",
+    "country": "DZ",
+    "name": "Constantine, Algeria"
+  },
+  {
+    "code": "DJG",
+    "country": "DZ",
+    "name": "Djanet, Algeria"
+  },
+  {
+    "code": "ELG",
+    "country": "DZ",
+    "name": "El Golea, Algeria"
+  },
+  {
+    "code": "ELU",
+    "country": "DZ",
+    "name": "El Oued, Algeria"
+  },
+  {
+    "code": "GHA",
+    "country": "DZ",
+    "name": "Ghardaia, Algeria"
+  },
+  {
+    "code": "HME",
+    "country": "DZ",
+    "name": "Hassi Messaoud, Algeria"
+  },
+  {
+    "code": "VVZ",
+    "country": "DZ",
+    "name": "Illizi, Algeria"
+  },
+  {
+    "code": "IAM",
+    "country": "DZ",
+    "name": "In Amenas, Algeria"
+  },
+  {
+    "code": "INZ",
+    "country": "DZ",
+    "name": "In Salah, Algeria"
+  },
+  {
+    "code": "GJL",
+    "country": "DZ",
+    "name": "Jijel, Algeria"
+  },
+  {
+    "code": "MUW",
+    "country": "DZ",
+    "name": "Mascara, Algeria"
+  },
+  {
+    "code": "ORN",
+    "country": "DZ",
+    "name": "Oran, Algeria"
+  },
+  {
+    "code": "OGX",
+    "country": "DZ",
+    "name": "Ovargla, Algeria"
+  },
+  {
+    "code": "TMR",
+    "country": "DZ",
+    "name": "Tamanrasset, Algeria"
+  },
+  {
+    "code": "TEE",
+    "country": "DZ",
+    "name": "Tbessa, Algeria"
+  },
+  {
+    "code": "TID",
+    "country": "DZ",
+    "name": "Tiaret, Algeria"
+  },
+  {
+    "code": "TMX",
+    "country": "DZ",
+    "name": "Timimoun, Algeria"
+  },
+  {
+    "code": "TIN",
+    "country": "DZ",
+    "name": "Tindouf, Algeria"
+  },
+  {
+    "code": "TLM",
+    "country": "DZ",
+    "name": "Tlemcen, Algeria"
+  },
+  {
+    "code": "TGR",
+    "country": "DZ",
+    "name": "Touggourt, Algeria"
+  },
+  {
+    "code": "OFU",
+    "country": "AS",
+    "name": "Ofu, American Samoa"
+  }
+]
