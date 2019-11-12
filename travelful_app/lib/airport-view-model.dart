@@ -25,6 +25,9 @@ class Airport {
         country: parsedJson['country'] as String
     );
   }
+  String toString(){
+    return "$code $name";
+  }
 }
 
 class AirportsViewModel {

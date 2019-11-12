@@ -1,49 +1,31 @@
 import 'package:flutter/material.dart';
 import 'feed-list.dart';
 import 'trip.dart';
+import 'travelful-bar.dart';
+import 'app-config.dart';
+import 'webservice.dart';
+import 'device-info.dart';
 
-
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
+class TravelfulApp extends StatelessWidget {
   // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
+    var config = AppConfig.of(context);
+    Webservice.baseUrl = config.apiBaseUrl;
+    Webservice.websocketBaseUrl = config.websocketBaseUrl;
     return MaterialApp(
       title: 'Travelful',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Travelful'),
+      home: Travelful(title: 'Travelful'),
     );
   }
 }
 
-
-//Widget feedList(BuildContext context){
-// return  ListView.builder(
-//    itemBuilder: (context, position) {
-//      return Card(
-//        child: Padding(
-//          padding: const EdgeInsets.all(16.0),
-//          child: Text(position.toString(), style: TextStyle(fontSize: 22.0),),
-//        ),
-//      );
-//    },
-//  );
-//}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+class Travelful extends StatefulWidget {
+  Travelful({Key key, this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -57,28 +39,44 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _TravelfulState createState() => _TravelfulState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _TravelfulState extends State<Travelful> {
+  Future<String> _deviceId;
 
+  @override
+  void initState() {
+    super.initState();
+    _deviceId = DeviceInfo.getDeviceInformation();
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Fetch Data Example',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: Scaffold(
-//        appBar: AppBar(
-//          title: Text('Fetch Data Example'),
-//        ),
-        body: Center(
-          //child:  FeedList(),
-          child:  Trip(),
+        title: 'Travelful',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
         ),
-      ),
-    );
+        home: Scaffold(
+          appBar: TravelfulApplicationBar(
+            height: 100.0,
+            title: "",
+          ),
+          body: Center(
+            child: FutureBuilder<String>(
+                future: _deviceId,
+                builder:
+                    (BuildContext context, AsyncSnapshot<String> snapshot) {
+                  if (snapshot.hasData) {
+                    return FeedList("main");
+                  } else {
+                    return Container();
+                  }
+                }
+//          child: Trip(),
+                ),
+          ),
+        ));
   }
 }

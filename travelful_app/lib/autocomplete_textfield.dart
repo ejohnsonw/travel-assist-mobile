@@ -217,6 +217,7 @@ class AutoCompleteTextFieldState<T> extends State<AutoCompleteTextField> {
       final Size textFieldSize = (context.findRenderObject() as RenderBox).size;
       final width = textFieldSize.width;
       final height = textFieldSize.height;
+
       listSuggestionsEntry = new OverlayEntry(builder: (context) {
         return new Positioned(
             width: width,

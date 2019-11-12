@@ -18,14 +18,14 @@ class _MulticityState extends State<MultiCityInput> {
   String title;
 
   DestinationInfo arrivalCity;
-  CitySearch departureCity;
+//  CitySearch departureCity;
 
   _MulticityState({this.title});
 
   @override
   Widget build(BuildContext context) {
     arrivalCity = DestinationInfo(title: "What is your destination?");
-    departureCity = CitySearch(title: "Traveling from",showImage: true);
+//    departureCity = CitySearch(title: "Traveling from",showImage: true);
     return ListView(
       padding: EdgeInsets.fromLTRB(10.0, 130.0, 10.0, 20.0),
       children: <Widget>[arrivalCity],

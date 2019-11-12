@@ -1,45 +1,71 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'webservice.dart';
-import 'photo.dart';
 import 'package:http/http.dart' as http;
-import 'feed.dart';
 import 'tile-item.dart';
+import 'travelful-bar.dart';
+import 'identity-manager.dart';
+import 'device-info.dart';
+import 'dart:io';
 
 class FeedList extends StatefulWidget {
+  String section;
+
+  FeedList(this.section);
+
+  FeedListState state;
+
   @override
   State<StatefulWidget> createState() {
-    return new FeedListState();
+    state = FeedListState(this.section);
+    return state;
   }
 }
 
 class FeedListState extends State<FeedList> {
+  FeedListState(this.section);
+
   List<Map> _feedItems = new List();
   var isLoading = false;
   final _biggerFont = const TextStyle(fontSize: 18.0);
   Webservice webservice = new Webservice();
-  List<Feed> list = List();
 
-  _fetchData() async {
+  Map feed;
+
+  String section;
+
+  _fetchData(Map body) async {
     setState(() {
       isLoading = true;
     });
 
-    Map body = new Map();
+    body['deviceId'] = DeviceInfo.deviceId;
+
+
+    body['service'] = "travelful.mobile";
+    body['section'] = this.section;
+
     var bodyEncoded = json.encode(body);
     Map headers = new Map();
-    final response = await http.post(Webservice.baseUrl+"/travelful/feed", body: "{}" , headers: {
-      "Content-Type": "application/json"
-    },);
+    String url = Webservice.baseUrl + "/feed/retrieve/";
+    final response = await http.post(
+      url,
+      body: bodyEncoded,
+      headers: {"Content-Type": "application/json"},
+    );
 
     if (response.statusCode == 200) {
-      list = (json.decode(utf8.decode(response.bodyBytes)) as List)
-          .map((data) => new Feed.fromJson(data))
-          .toList();
+//      list = (json.decode(utf8.decode(response.bodyBytes)) as List)
+//          .map((data) => new Feed.fromJson(data))
+//          .toList();
+      feed = json.decode(utf8.decode(response.bodyBytes)) as Map;
       setState(() {
         isLoading = false;
       });
     } else {
+      setState(() {
+        isLoading = false;
+      });
       throw Exception('Failed to load photos');
     }
   }
@@ -47,77 +73,26 @@ class FeedListState extends State<FeedList> {
   @override
   initState() {
     super.initState();
-//    webservice
-//        .fetchFeed()
-//        .then((items) => setState(() => this._feedItems = items));
-  _fetchData();
+    Map body = new Map();
+    _fetchData(body);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-//        appBar: AppBar(
-//          title: Text("Fetch Data JSON"),
-//        ),
-//        bottomNavigationBar: Padding(
-//          padding: const EdgeInsets.all(0.0),
-//          child: RaisedButton(
-//            child: new Text("Fetch Data"),
-//            onPressed: _fetchData,
-//          ),
-//        ),
-        body: isLoading
-            ? Center(child: CircularProgressIndicator(),)
+    return Container(
+        //color: Color(TravelfulApplicationBar.hexToInt("FF3D5191")),
+        color: Color(TravelfulApplicationBar.hexToInt("FF3D5191")),
+        child: isLoading
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
             : ListView.builder(
-            itemCount: list.length,
-            itemBuilder: (BuildContext context, int index) {
-            return TileItem(item:list[index]);
-//              return Container(
-//                width: MediaQuery.of(context).size.width,
-//                height: 200,
-//                decoration: BoxDecoration(
-//                  image: DecorationImage(
-//                    fit: BoxFit.cover,
-//                    image: NetworkImage(list[index].urlAction),
-//                  ),
-//                ),
-//                alignment: Alignment.bottomCenter,
-//                padding: EdgeInsets.only(bottom: 10),
-//                child: Text(
-//                  list[index].title,
-//                  style: Theme.of(context)
-//                      .textTheme
-//                      .display1
-//                      .copyWith(color: Colors.black),
-//                ),
-//              );
-
-
-//              return Column(
-//                crossAxisAlignment: CrossAxisAlignment.center,
-//                mainAxisSize: MainAxisSize.min,
-//                children: <Widget>[
-//                  Card(
-//                    elevation: 18.0,
-//                    shape: RoundedRectangleBorder(
-//                        borderRadius: BorderRadius.all(Radius.circular(5.0))),
-//                    child: Image.network(
-//                      list[index].urlAction,
-//                      fit: BoxFit.cover,
-//                      height: 200.0,
-//                      width: MediaQuery.of(context).size.width,
-//                    ),
-//                    clipBehavior: Clip.antiAlias,
-//                    margin: EdgeInsets.all(8.0),
-//                  ),
-//                  Text(
-//                    list[index].title,
-//                    style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-//                  )
-//                ],
-//              );
-
-
-            }));
+                padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+//            shrinkWrap: true,
+//            physics: ClampingScrollPhysics(),
+                itemCount: feed["items"].length,
+                itemBuilder: (BuildContext context, int index) {
+                  return TileItem(item: feed["items"][index]);
+                }));
   }
 }

@@ -17,7 +17,10 @@ class CitySearch extends StatefulWidget {
 
   @override
   _CitySearchState createState() {
-    _state = new _CitySearchState(title: this.title, showImage: this.showImage,citySelectedController: citySelectedController);
+    _state = new _CitySearchState(
+        title: this.title,
+        showImage: this.showImage,
+        citySelectedController: citySelectedController);
     return _state;
   }
 
@@ -41,7 +44,7 @@ class _CitySearchState extends State<CitySearch> {
   Image cardImage;
   Card cardWithImage;
 
-  _CitySearchState({this.title,this.showImage,this.citySelectedController});
+  _CitySearchState({this.title, this.showImage, this.citySelectedController});
 
   @override
   void initState() {
@@ -59,18 +62,20 @@ class _CitySearchState extends State<CitySearch> {
     selectedCity = item;
 
 
-    if(citySelectedController != null){
-      citySelectedController.add(new DestinationCitySelected(city:selectedCity));
-      if(showImage){
-        isCitySelected = true;
-      }
-    }
     CitysViewModel.loadAirports(selectedCity).then((response) {
       if (response.statusCode == 200) {
-        selectedCity = City.fromJson( json.decode(utf8.decode(response.bodyBytes)));
-
+        selectedCity =
+            City.fromJson(json.decode(utf8.decode(response.bodyBytes)));
+        selectedCity.airports.forEach((f){print(f);});
+        if (citySelectedController != null) {
+          citySelectedController
+              .add(new DestinationCitySelected(city: selectedCity));
+          if (showImage) {
+            isCitySelected = true;
+          }
+        }
       } else {
-        //throw Exception('Failed to load citys');
+        throw Exception('Failed to load airports');
       }
     });
   }
@@ -106,7 +111,10 @@ class _CitySearchState extends State<CitySearch> {
           setState(() => changeStateUI(item));
         },
         suggestionsAmount: 10,
-        onFocusChanged: (hasFocus) {},
+        minLength: 3,
+        onFocusChanged: (hasFocus) {
+          //searchTextField.clear();
+        },
         textChanged: (criteria) {
           this._loadData(criteria);
         },
@@ -115,21 +123,23 @@ class _CitySearchState extends State<CitySearch> {
         key: key,
         suggestions: CitysViewModel.citys,
         itemBuilder: (context, item) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                "${item.name}, ${item.adminName} ${item.countryISO3}",
-                style: TextStyle(fontSize: fontSize),
-              ),
-              Padding(
-                padding: EdgeInsets.all(5.0),
-              ),
+          return Container(
+              height: 30.0,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    "${item.name}, ${item.adminName} ${item.countryISO3}",
+                    style: TextStyle(fontSize: fontSize),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(5.0),
+                  ),
 //                Text(
 //                  item.country,
 //                )
-            ],
-          );
+                ],
+              ));
         },
         itemSorter: (a, b) {
           return a.name.compareTo(b.name);
@@ -138,8 +148,6 @@ class _CitySearchState extends State<CitySearch> {
           return true;
         });
 
-
-
     return new Column(children: <Widget>[
       searchTextField,
       getImage(),
@@ -147,8 +155,8 @@ class _CitySearchState extends State<CitySearch> {
     ]);
   }
 
-  Widget getImage(){
-     cardWithImage = Card(
+  Widget getImage() {
+    cardWithImage = Card(
       elevation: 10.0,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(5.0))),
@@ -156,9 +164,9 @@ class _CitySearchState extends State<CitySearch> {
       clipBehavior: Clip.antiAlias,
       margin: EdgeInsets.all(2.0),
     );
-    if(isCitySelected){
+    if (isCitySelected) {
       return cardWithImage;
-    }else{
+    } else {
       return Container();
     }
   }
@@ -175,5 +183,6 @@ class _CitySearchState extends State<CitySearch> {
 
 class DestinationCitySelected {
   City city;
+
   DestinationCitySelected({this.city});
 }
