@@ -8,6 +8,7 @@ class AppConfig extends InheritedWidget {
     @required this.appName,
     @required this.flavorName,
     @required this.apiBaseUrl,
+    @required this.travelAssistUrl,
     @required this.websocketBaseUrl,
     @required Widget child,
   }) : super(child: child);
@@ -15,6 +16,7 @@ class AppConfig extends InheritedWidget {
   final String appName;
   final String flavorName;
   final String apiBaseUrl;
+  final String travelAssistUrl;
   final String websocketBaseUrl;
 
   DeviceInfo di = new DeviceInfo();

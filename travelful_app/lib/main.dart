@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'feed-list.dart';
 import 'trip.dart';
+import 'trip-stages.dart';
 import 'travelful-bar.dart';
 import 'app-config.dart';
 import 'webservice.dart';
 import 'device-info.dart';
+import 'itinerary-list.dart';
+import 'search-bar.dart';
+import 'fade-route.dart';
+import 'trip-search-good.dart';
 
 class TravelfulApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -14,6 +19,7 @@ class TravelfulApp extends StatelessWidget {
     var config = AppConfig.of(context);
     Webservice.baseUrl = config.apiBaseUrl;
     Webservice.websocketBaseUrl = config.websocketBaseUrl;
+    Webservice.baseUrlTravelAssist = config.travelAssistUrl;
     return MaterialApp(
       title: 'Travelful',
       theme: ThemeData(
@@ -44,6 +50,12 @@ class Travelful extends StatefulWidget {
 
 class _TravelfulState extends State<Travelful> {
   Future<String> _deviceId;
+  String _searchText = "";
+  List names = new List();
+  List filteredNames = new List();
+  Icon _searchIcon = new Icon(Icons.search);
+  Widget _appBarTitle = new Text('Search Example');
+  final TextEditingController _filter = new TextEditingController();
 
   @override
   void initState() {
@@ -60,7 +72,7 @@ class _TravelfulState extends State<Travelful> {
         ),
         home: Scaffold(
           appBar: TravelfulApplicationBar(
-            height: 100.0,
+            height: 60.0,
             title: "",
           ),
           body: Center(
@@ -69,7 +81,25 @@ class _TravelfulState extends State<Travelful> {
                 builder:
                     (BuildContext context, AsyncSnapshot<String> snapshot) {
                   if (snapshot.hasData) {
-                    return FeedList("main");
+                    return Stack(
+                      children: <Widget>[
+                        ItineraryList("d7abcae35ab8"),
+                        Container(
+                            alignment: Alignment.topRight,
+                            margin: EdgeInsets.all(5),
+                            child: FloatingActionButton(
+                      onPressed: () async {
+
+
+                              Navigator.push(context,
+                                  FadeRoute(page: TripSearch(title: "Search",)));
+                      },
+
+                              tooltip: 'Search',
+                              child: Icon(Icons.search),
+                            ))
+                      ],
+                    );
                   } else {
                     return Container();
                   }
@@ -78,5 +108,34 @@ class _TravelfulState extends State<Travelful> {
                 ),
           ),
         ));
+  }
+
+  Widget _buildBar(BuildContext context) {
+    return new AppBar(
+      centerTitle: true,
+      title: _appBarTitle,
+      leading: new IconButton(
+        icon: _searchIcon,
+        onPressed: _searchPressed,
+      ),
+    );
+  }
+
+  void _searchPressed() {
+    setState(() {
+      if (this._searchIcon.icon == Icons.search) {
+        this._searchIcon = new Icon(Icons.close);
+        this._appBarTitle = new TextField(
+          controller: _filter,
+          decoration: new InputDecoration(
+              prefixIcon: new Icon(Icons.search), hintText: 'Search...'),
+        );
+      } else {
+        this._searchIcon = new Icon(Icons.search);
+        this._appBarTitle = new Text('Search Example');
+        filteredNames = names;
+        _filter.clear();
+      }
+    });
   }
 }

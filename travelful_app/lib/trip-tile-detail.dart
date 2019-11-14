@@ -73,7 +73,7 @@ class TripTileDetail extends StatelessWidget {
     return Card (
         margin: const EdgeInsets.fromLTRB(5, 10, 5, 10),
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(5.0))),
+            borderRadius: BorderRadius.all(Radius.circular(0.0))),
     child:Column(children: <Widget>[
 //      Container(
 //        width: MediaQuery.of(context).size.width,

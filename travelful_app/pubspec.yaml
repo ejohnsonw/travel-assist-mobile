@@ -30,6 +30,7 @@ dependencies:
   youtube_player_flutter: ^3.0.0+1
   fluttertoast: ^3.1.0
   keyboard_visibility: ^0.5.2
+  material_search: ^0.2.8
 #  adhara_socket_io: ^0.1.11
 #  flutter_socket_io: ^0.4.7
 

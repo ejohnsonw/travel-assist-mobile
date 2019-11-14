@@ -6,13 +6,16 @@ import 'city-view-model.dart';
 import 'package:uuid/uuid.dart';
 import 'app-config.dart';
 import 'flight-search-data.dart';
+import 'itinerary.dart';
 
 class Webservice {
   static String baseUrl = "";
+  static String baseUrlTravelAssist = "";
   static String websocketBaseUrl = "";
   static String clientId = "travelful_mobile";
   static final dateFormatter = DateFormat('yyyy-MM-dd');
-
+  static Itinerary itineraryInfo;
+  static Map tripInfo;
   Webservice() {}
 
 //  Future<List<Map>> fetchFeed() async {
@@ -96,5 +99,27 @@ class Webservice {
     headers["clientId"] = clientId;
     return http.post(baseUrl + "/travelful/feedForCity",
         body: bodyEncoded, headers: headers);
+  }
+
+
+  static Future<http.Response> itinerary(bookingId) async {
+    Map itineraryRequest = new Map();
+    itineraryRequest["bookingId"] = bookingId;
+    var bodyEncoded = json.encode(itineraryRequest);
+    Map<String, String> headers = new Map();
+    headers["Content-Type"] = "application/json";
+    headers["clientId"] = clientId;
+    return http.post(baseUrlTravelAssist + "itinerary",
+        body: bodyEncoded, headers: headers);
+  }
+
+  static Future<http.Response> trip(bookingId) async {
+    Map itineraryRequest = new Map();
+    itineraryRequest["bookingId"] = bookingId;
+    var bodyEncoded = json.encode(itineraryRequest);
+    Map<String, String> headers = new Map();
+    headers["Content-Type"] = "application/json";
+    headers["clientId"] = clientId;
+    return http.get(baseUrlTravelAssist + "trip/"+bookingId, headers: headers);
   }
 }
