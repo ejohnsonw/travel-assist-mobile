@@ -70,7 +70,7 @@ class _TripSearchState extends State<TripSearch> {
   @override
   void initState() {
     super.initState();
-    controller.addListener(this.textChanged());
+//    controller.addListener(this.textChanged());
 //    _loadData("");
   }
 
@@ -78,28 +78,63 @@ class _TripSearchState extends State<TripSearch> {
   Widget build(BuildContext context) {
     double fontSize = 13.0;
     searchTextField = TextField(
-      onChanged: (text) {
-        if (text.length >= 3) {
-          this._fetchData(text);
-        }
-      },
+//      onChanged: (text) {
+//        if (text.length >= 3) {
+//          this._fetchData(text);
+//        } else {
+//          this._searchResults = new List();
+//          setState(() {
+//            isLoading = false;
+//          });
+//        }
+//      },
+      controller: controller,
     );
 
+    Widget searchComponent = Row(
+      children: <Widget>[
+        Container(child: searchTextField,
+          height: 50,
+          width: MediaQuery
+              .of(context)
+              .size
+              .width * 0.6,),
+        Container(
+            alignment: Alignment.topRight,
+            margin: EdgeInsets.all(0),
+            height: 30,
+            width:MediaQuery
+                .of(context)
+                .size
+                .width * 0.3,
+            child: FloatingActionButton(
+              onPressed: () async {
+                this._fetchData(controller.text);
+              },
+              tooltip: 'Search',
+              child: Icon(Icons.search),
+            )
+        )
+      ],
+    );
     if (isLoading) {
       return Scaffold(
           body: Stack(children: <Widget>[
-        Column(children: <Widget>[
-          TravelfulApplicationBar(height: 80, title: ""),
-          searchTextField,
-          CircularProgressIndicator()
-        ])
-      ]));
+            Column(children: <Widget>[
+              TravelfulApplicationBar(height: 80, title: ""),
+              searchComponent,
+              CircularProgressIndicator()
+            ])
+          ]));
     } else {
       return Scaffold(
         body: Stack(children: <Widget>[
           Column(children: <Widget>[
             TravelfulApplicationBar(height: 80, title: ""),
-            searchTextField,
+            Container(
+              padding: EdgeInsets.all(10.0),
+              child: searchComponent,
+            ),
             ListView.builder(
                 padding: EdgeInsets.fromLTRB(10.0, 0, 10, 0),
                 shrinkWrap: true,
@@ -107,7 +142,7 @@ class _TripSearchState extends State<TripSearch> {
                 itemCount: _searchResults.length,
                 itemBuilder: (BuildContext context, int index) {
                   var business = _searchResults[index];
-                  print(business.toString());
+                  print(business['businessName']);
                   return BusinessTile(business: business);
                 })
           ])

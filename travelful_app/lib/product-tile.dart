@@ -5,24 +5,21 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'platform/platform-input.dart';
 import 'platform/platform-datepicker.dart';
-import 'fade-route.dart';
-import 'catalog-page.dart';
 
-class BusinessTile extends StatefulWidget {
-  Map business;
+class ProductTile extends StatefulWidget {
+  Map product;
 
-  BusinessTile({this.business});
+  ProductTile({this.product});
 
   @override
   State<StatefulWidget> createState() {
-    return new BusinessTileState(business: business);
+    return new ProductTileState(product: product);
   }
 }
 
-class BusinessTileState extends State<BusinessTile> {
-  Map business;
-
-  BusinessTileState({this.business});
+class ProductTileState extends State<ProductTile> {
+  Map product;
+  ProductTileState({this.product});
 
   int _gender = -1;
 
@@ -41,63 +38,71 @@ class BusinessTileState extends State<BusinessTile> {
   @override
   Widget build(BuildContext context) {
     final MediaQueryData mediaQuery = MediaQuery.of(context);
+    double c_width = MediaQuery.of(context).size.width*0.9;
+    String imageUrl = product['image'];
+    if(imageUrl != null ){
+      if(!imageUrl.startsWith("http")){
+        imageUrl = "https://quos.s3.amazonaws.com/"+product['image'];
+      }
 
-    return new InkWell(
-      child: Hero(
-        tag: "card" + business['id'].toString(),
-        child: Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(8.0),
-            ),
+    }else{
+      imageUrl = "http://pixelartmaker.com/art/adc5bdf3262a4af.png";
+    }
+
+    if(product['description'] == null ){
+      product['description'] = '';
+    }
+    return Hero(
+      tag: "card" + product['sku'].toString(),
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(4.0),
           ),
-          clipBehavior: Clip.antiAliasWithSaveLayer,
-          child: Stack(
-            children: <Widget>[
-              Column(
-                children: <Widget>[
-//                  Container(
-//                    height: mediaQuery.padding.top + 0,
-//                  ),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Container(
-                          child:
+        ),
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        child: Stack(
+          children: <Widget>[
+            Column(
+
+              children: <Widget>[
+
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Container(
+                        child:
 //                        Image.network("http://pics.avs.io/150/50/${offer.airline}.png"),
-                              Image.network("https://quos.s3.amazonaws.com/" + business['photo'],
-                            height: 75,
-                            fit: BoxFit.cover,
-                          ),
+                            Image.network(imageUrl,
+                          height: 75,
+                              fit: BoxFit.cover,
                         ),
-                        Container(
-                          height: 40,
-                          child: Padding(
-                              padding: EdgeInsets.all(10.0),
-                              child: Text(business['businessName'],
-                                  textAlign: TextAlign.right,
-                                  style: new TextStyle(
-                                      color: Colors.blue, fontSize: 18.0))),
-                        ),
+                      ),
+                      Container(
+                        height: 54,
+                        child: Padding(
+                            padding: EdgeInsets.all(10.0),
+                            child: Text(product['name'],
+                                textAlign: TextAlign.right,
+                                style: new TextStyle(
+                                    color: Colors.blue, fontSize: 15.0))),
+                      )
+                    ]),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Container(
+                        height: 54,
+                        width: c_width,
+                        child: Padding(
+                            padding: EdgeInsets.all(10.0),
+                            child: Text(product['description'],
+                                textAlign: TextAlign.right,
+                                style: new TextStyle(
+                                    color: Colors.blue, fontSize: 10.0))),
+                      )
+                    ]),
 
-
-                      ]),
-
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Container(
-                          height: 38,
-                          child: Padding(
-                              padding: EdgeInsets.all(10.0),
-                              child: Text(business['stageName'],
-                                  textAlign: TextAlign.right,
-                                  style: new TextStyle(
-                                      color: Colors.black, fontSize: 15.0))),
-                        ),
-
-
-                      ]),
 //                Material(
 //                  child: ListTile(
 //                    title: Text(this.offer.price.toString()),
@@ -135,8 +140,8 @@ class BusinessTileState extends State<BusinessTile> {
 //                              page: BookFlight(search:search,offer: offer)));
 //                        },
 //                        child: new Text("Book this flight")))
-                ],
-              ),
+              ],
+            ),
 
 //            Column(
 //              children: <Widget>[
@@ -150,14 +155,9 @@ class BusinessTileState extends State<BusinessTile> {
 //                )
 //              ],
 //            ),
-            ],
-          ),
+          ],
         ),
       ),
-      onTap: () {
-        Navigator.push(
-            context, FadeRoute(page: Catalog(business: this.business)));
-      },
     );
   }
 

@@ -168,10 +168,10 @@ class ItineraryListState extends State<ItineraryList> {
         child: CircularProgressIndicator(),
       );
     } else {
-      return Container(
-          //color: Color(TravelfulApplicationBar.hexToInt("FF3D5191")),
-          color: Colors.white,
-          margin: EdgeInsets.fromLTRB(0.0, 60.0, 0.0, 0.0),
+      return Container(padding: EdgeInsets.all(5.0),
+          color: Color(TravelfulApplicationBar.hexToInt("FF3D5191")),
+          //color: Colors.white,
+          margin: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
           child: new ItineraryDetail(offer: this.itinerary, search: search));
     }
   }

@@ -83,21 +83,25 @@ class _TravelfulState extends State<Travelful> {
                   if (snapshot.hasData) {
                     return Stack(
                       children: <Widget>[
-                        ItineraryList("d7abcae35ab8"),
+                        Container(child: ItineraryList("d7abcae35ab8"), margin: EdgeInsets.fromLTRB(0, 60, 0, 0),),
                         Container(
                             alignment: Alignment.topRight,
-                            margin: EdgeInsets.all(5),
+                            color: Color(TravelfulApplicationBar.hexToInt("FF3D5191")),
+                            margin: EdgeInsets.all(0),
+                            height: 70,
                             child: FloatingActionButton(
-                      onPressed: () async {
-
-
-                              Navigator.push(context,
-                                  FadeRoute(page: TripSearch(title: "Search",)));
-                      },
-
+                              onPressed: () async {
+                                Navigator.push(
+                                    context,
+                                    FadeRoute(
+                                        page: TripSearch(
+                                      title: "Search",
+                                    )));
+                              },
                               tooltip: 'Search',
                               child: Icon(Icons.search),
-                            ))
+                            )
+                        )
                       ],
                     );
                   } else {

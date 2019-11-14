@@ -40,7 +40,7 @@ class ItineraryDetail extends StatelessWidget {
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
-            Radius.circular(0.0),
+            Radius.circular(8.0),
           ),
         ),
         clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -55,6 +55,7 @@ class ItineraryDetail extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       Container(
+                        margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
                         height: 50,
                         child:
 //                        Image.network("http://pics.avs.io/150/50/${offer.airline}.png"),
@@ -62,6 +63,7 @@ class ItineraryDetail extends StatelessWidget {
 
                       ),
                       Container(
+                          margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
                           height: 24,
                           child: Text("Price: \$"+offer.price.toString(),
                               textAlign: TextAlign.right,
