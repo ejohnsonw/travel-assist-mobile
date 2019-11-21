@@ -85,7 +85,7 @@ class ProductTileState extends State<ProductTile> {
                             child: Text(product['name'],
                                 textAlign: TextAlign.right,
                                 style: new TextStyle(
-                                    color: Colors.blue, fontSize: 15.0))),
+                                    color: Colors.blue, fontSize: 18.0))),
                       )
                     ]),
                 Row(
@@ -99,7 +99,7 @@ class ProductTileState extends State<ProductTile> {
                             child: Text(product['description'],
                                 textAlign: TextAlign.right,
                                 style: new TextStyle(
-                                    color: Colors.blue, fontSize: 10.0))),
+                                    color: Colors.black, fontSize: 14.0))),
                       )
                     ]),
 
