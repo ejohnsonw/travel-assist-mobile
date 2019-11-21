@@ -7,7 +7,7 @@ void main() {
     appName: 'Build flavors PROD',
     flavorName: 'production',
     apiBaseUrl: 'https://backend.travelful.co:8050',
-    travelAssistUrl: 'https://travel-assist-evals28-shared-6494.apps.hackathon.rhmi.io/travel-assist/',
+    travelAssistUrl: 'https://backend-api--apicast-production.amp.hackathon.rhmi.io:443/',
     websocketBaseUrl: 'wss://backend.travelful.co:9087',
     child: new TravelfulApp(),
   );
